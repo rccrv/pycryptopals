@@ -1,5 +1,5 @@
 import string
-from typing import Final, List, Tuple
+from typing import Final, List, Tuple, Dict
 
 
 class ChiSquare:
@@ -8,7 +8,7 @@ class ChiSquare:
         return [int("0x" + s[i : i + 2], 16) for i in range(0, len(s), 2)]
 
     def __init__(self, s: str):
-        self.ALPHABET: Final = {
+        self.ALPHABET: Final[Dict[str, float]] = {
             "a": 0.08167,
             "b": 0.01492,
             "c": 0.02782,
@@ -66,7 +66,7 @@ class ChiSquare:
                     sum += float("inf")
         return sum
 
-    def analysis(self) -> Tuple[chr, float, str]:
+    def analysis(self) -> Tuple[str, float, str]:
         bestfit = ("\0", float("inf"), "")
 
         for c in self.__l:
