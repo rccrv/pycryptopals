@@ -1,12 +1,10 @@
 import string
 from typing import Final, List, Tuple, Dict
 
+from lib import xorsingleletter
+
 
 class ChiSquare:
-    @staticmethod
-    def s2b(s: str) -> List[int]:
-        return [int("0x" + s[i : i + 2], 16) for i in range(0, len(s), 2)]
-
     def __init__(self, s: str):
         self.ALPHABET: Final[Dict[str, float]] = {
             "a": 0.08167,
@@ -45,7 +43,7 @@ class ChiSquare:
             + list(range(ord("0"), ord("9") + 1))
         )
 
-        self.bytes = self.__class__.s2b(s)
+        self.s = s
 
     def chisquare(self, xored: str) -> float:
         sum = 0.0
@@ -70,7 +68,7 @@ class ChiSquare:
         bestfit = ("\0", float("inf"), "")
 
         for c in self.__l:
-            xored = "".join([chr(c ^ b) for b in self.bytes])
+            xored = xorsingleletter(self.s, c)
 
             bn = self.chisquare(xored.lower())
 

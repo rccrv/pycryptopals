@@ -1,11 +1,20 @@
 import itertools
 
+from typing import List
+
 
 def xorrepeatedkey(s: str, key: str) -> str:
     cycle = itertools.cycle(key)
     r = "".join(f"{ord(z[0]) ^ ord(z[1]):02x}" for z in zip(s, cycle))
 
     return r
+
+def s2b(s: str) -> List[int]:
+    return [int("0x" + s[i : i + 2], 16) for i in range(0, len(s), 2)]
+
+
+def xorsingleletter(s: str, key: int) -> str:
+    return "".join([chr(key ^ b) for b in s2b(s)])
 
 
 def popcount(n: int) -> int:
