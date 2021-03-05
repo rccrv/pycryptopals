@@ -7,6 +7,7 @@ def xorrepeatedkey(s: str, key: str) -> str:
 
     return r
 
+
 def popcount(n: int) -> int:
     x = n
     count = 0
@@ -16,6 +17,7 @@ def popcount(n: int) -> int:
         x &= x - 1
 
     return count
+
 
 def hd(s1: str, s2: str) -> int:
     d = 0
