@@ -3,6 +3,7 @@ import challenge02
 import challenge03
 import challenge04
 import challenge05
+import challenge06
 
 if __name__ == "__main__":
     print("# cryptopals - set 01 #")
@@ -16,3 +17,5 @@ if __name__ == "__main__":
     print(challenge04.answer())
     print("- challenge 05 -")
     print(challenge05.answer())
+    print("- challenge 06 -")
+    print(challenge06.answer())

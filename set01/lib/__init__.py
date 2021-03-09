@@ -1,13 +1,10 @@
-import itertools
-
+from itertools import cycle, zip_longest
 from typing import List
 
 
 def xorrepeatedkey(s: str, key: str) -> str:
-    cycle = itertools.cycle(key)
-    r = "".join(f"{ord(z[0]) ^ ord(z[1]):02x}" for z in zip(s, cycle))
+    return "".join(f"{ord(z[0]) ^ ord(z[1]):02x}" for z in zip(s, cycle(key)))
 
-    return r
 
 def s2b(s: str) -> List[int]:
     return [int("0x" + s[i : i + 2], 16) for i in range(0, len(s), 2)]
@@ -28,8 +25,24 @@ def popcount(n: int) -> int:
     return count
 
 
-def hd(s1: str, s2: str) -> int:
-    d = 0
-    d = sum([popcount(ord(i[0]) ^ ord(i[1])) for i in zip(s1, s2)])
+def hd(s1: bytes, s2: bytes) -> int:
+    return sum([popcount(i[0] ^ i[1]) for i in zip(s1, s2)])
 
-    return d
+
+def transposebytes(l: List[bytes]) -> List[bytes]:
+    v = [tuple(b"%c" % k for k in i if isinstance(k, int)) for i in zip_longest(*l)]
+    r = [b"".join(i) for i in v]
+    return r
+
+
+def wrapbytes(b: bytes, s: int) -> List[bytes]:
+    return (
+        [b[i : (i + s)] for i in range(0, len(b), s)]
+        if len(b) % s == 0
+        else [b[i : (i + s)] for i in range(0, len(b) - s, s)]
+        + [b[len(b) - (len(b) % s) :]]
+    )
+
+
+def bytestohexstring(b: bytes) -> str:
+    return "".join(["{:02x}".format(i) for i in b])

@@ -1,55 +1,103 @@
 from pytest import approx
 
-from lib import xorrepeatedkey, xorsingleletter, s2b, popcount, hd
+from lib import (
+    xorrepeatedkey,
+    s2b,
+    xorsingleletter,
+    popcount,
+    hd,
+    transposebytes,
+    wrapbytes,
+    bytestohexstring,
+)
 from lib.chisquare import ChiSquare
 
 
 def test_xorrepeatedkey():
-    s = "Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal"
-    k = "ICE"
-    assert (
-        xorrepeatedkey(s, k)
-        == "0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f"
-)
+    si = "Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal"
+    ki = "ICE"
+    r = "0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f"
+    assert xorrepeatedkey(si, ki) == r
+
+
+def test_s2b():
+    i = "A"
+    r = [10]
+    assert s2b(i) == r
 
 
 def test_xoredsingleletter():
-    s1 = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
-    k = ord("X")
-    assert xorsingleletter(s1, k) == "Cooking MC's like a pound of bacon"
-
-
-def test_s2b():
-    assert s2b("A") == [10]
+    si = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
+    ki = ord("X")
+    r = "Cooking MC's like a pound of bacon"
+    assert xorsingleletter(si, ki) == r
 
 
 def test_popcount():
-    n3 = 11
-    assert popcount(n3) == 3
+    i = 11
+    r = 3
+    assert popcount(i) == r
 
 
 def test_hd():
-    s1 = "this is a test"
-    s2 = "wokka wokka!!!"
-    assert hd(s1, s2) == 37
+    s1i = "this is a test".encode("utf-8")
+    s2i = "wokka wokka!!!".encode("utf-8")
+    r = 37
+    assert hd(s1i, s2i) == r
 
 
-def test_s2b():
-    assert s2b("A") == [10]
+def test_transposebytes():
+    i = [b"a1a2a3a4", b"1b2b3b4b", b"c9c8"]
+    r = [b"a1c", b"1b9", b"a2c", b"2b8", b"a3", b"3b", b"a4", b"4b"]
+    assert transposebytes(i) == r
+
+
+def test_wrapbytes():
+    bi = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    s1i = 2
+    s2i = 3
+    s3i = 13
+    r1i = [
+        b"AB",
+        b"CD",
+        b"EF",
+        b"GH",
+        b"IJ",
+        b"KL",
+        b"MN",
+        b"OP",
+        b"QR",
+        b"ST",
+        b"UV",
+        b"WX",
+        b"YZ",
+    ]
+    r2i = [b"ABC", b"DEF", b"GHI", b"JKL", b"MNO", b"PQR", b"STU", b"VWX", b"YZ"]
+    r3i = [b"ABCDEFGHIJKLM", b"NOPQRSTUVWXYZ"]
+    assert (
+        wrapbytes(bi, s1i) == r1i
+        and wrapbytes(bi, s2i) == r2i
+        and wrapbytes(bi, s3i) == r3i
+    )
+
+
+def test_bytestohexstring():
+    bi = b"AA\x02"
+    r = "414102"
+    assert bytestohexstring(bi) == r
 
 
 def test_Chisequare_chisquare():
-    s = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
-    c = ChiSquare(s)
-    xored = xorsingleletter(s, ord("X"))
-    assert c.chisquare(xored.lower()) == approx(1001.7714498)
+    si = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
+    ki = "X"
+    to = ChiSquare(si)
+    ixored = xorsingleletter(si, ord(ki)).lower()
+    r = approx(1001.7714498)
+    assert to.chisquare(ixored) == r
 
 
 def test_Chisequare_analysis():
-    s = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
-    c = ChiSquare(s)
-    assert c.analysis() == (
-        "X",
-        approx(1001.7714498),
-        "Cooking MC's like a pound of bacon",
-    )
+    si = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
+    to = ChiSquare(si)
+    r = ("X", approx(1001.7714498), "Cooking MC's like a pound of bacon")
+    assert to.analysis() == r

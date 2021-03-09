@@ -1,12 +1,12 @@
 import string
-from typing import Final, List, Tuple, Dict
+from typing import Tuple, Dict, List
 
 from lib import xorsingleletter
 
 
 class ChiSquare:
     def __init__(self, s: str):
-        self.ALPHABET: Final[Dict[str, float]] = {
+        self.ALPHABET: Dict[str, float] = {
             "a": 0.08167,
             "b": 0.01492,
             "c": 0.02782,
@@ -35,7 +35,7 @@ class ChiSquare:
             "z": 0.00074,
         }
 
-        self.__l = (
+        self.l: List[int] = (
             list(range(ord("a"), ord("z") + 1))
             + list(range(ord("A"), ord("Z") + 1))
             + list(range(ord(":"), ord("@") + 1))
@@ -67,7 +67,7 @@ class ChiSquare:
     def analysis(self) -> Tuple[str, float, str]:
         bestfit = ("\0", float("inf"), "")
 
-        for c in self.__l:
+        for c in self.l:
             xored = xorsingleletter(self.s, c)
 
             bn = self.chisquare(xored.lower())
