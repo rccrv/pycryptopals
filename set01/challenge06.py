@@ -36,10 +36,7 @@ class Answer(ChiSquare):
             for b in tb:
                 self.s = bytestohexstring(b)
                 a = self.analysis()
-                if a[0] == "\0":
-                    k.append("=")
-                else:
-                    k.append(a[0])
+                k.append(a[0])
             r.append((i, "".join(k)))
         return r
 

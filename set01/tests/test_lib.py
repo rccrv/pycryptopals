@@ -1,6 +1,7 @@
 from pytest import approx
 
 from lib import (
+    byteentropy,
     xorrepeatedkey,
     s2b,
     xorsingleletter,
@@ -9,6 +10,8 @@ from lib import (
     transposebytes,
     wrapbytes,
     bytestohexstring,
+    hexstringtobytes,
+    byteentropy,
 )
 from lib.chisquare import ChiSquare
 
@@ -85,6 +88,18 @@ def test_bytestohexstring():
     bi = b"AA\x02"
     r = "414102"
     assert bytestohexstring(bi) == r
+
+
+def test_hexstringtobytes():
+    si = "414102"
+    r = b"AA\x02"
+    assert hexstringtobytes(si) == r
+
+
+def test_byteentropy():
+    bi = b"AA\x02"
+    r = approx(0.91829583)
+    assert byteentropy(bi) == r
 
 
 def test_Chisequare_chisquare():
