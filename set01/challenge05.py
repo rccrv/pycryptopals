@@ -1,4 +1,4 @@
-from lib import xorrepeatedkey
+from lib.xor import xorrepeatedkey
 
 
 def answer() -> str:

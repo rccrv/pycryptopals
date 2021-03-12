@@ -1,4 +1,4 @@
-from lib import pkcs7pad
+from lib.aes import pkcs7pad
 
 
 def answer() -> bytes:

@@ -1,16 +1,6 @@
-from itertools import cycle, zip_longest
+from itertools import zip_longest
 from math import log2
 from typing import List
-
-from Crypto.Cipher import AES
-
-
-def xorrepeatedkey(s: str, key: str) -> str:
-    return "".join(f"{ord(z[0]) ^ ord(z[1]):02x}" for z in zip(s, cycle(key)))
-
-
-def xorsingleletter(s: str, key: int) -> str:
-    return "".join([chr(key ^ b) for b in hexstringtobytes(s)])
 
 
 def popcount(n: int) -> int:
@@ -58,12 +48,5 @@ def byteentropy(b: bytes) -> float:
     v = [b.count(i) / len(b) for i in s]
     v = [i * log2(i) for i in v]
     r = -sum(v)
-
-    return r
-
-
-def decryptaesecb(b: bytes, k: bytes) -> bytes:
-    cipher = AES.new(k, AES.MODE_ECB)
-    r = cipher.decrypt(b)
 
     return r

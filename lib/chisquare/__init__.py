@@ -1,7 +1,7 @@
 import string
 from typing import Tuple
 
-from lib import xorsingleletter
+from lib.xor import xorsingleletter
 from lib.consts import ALPHABET, CHARS
 
 

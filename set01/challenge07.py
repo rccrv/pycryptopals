@@ -1,6 +1,6 @@
 from base64 import b64decode
 
-from lib import decryptaesecb
+from lib.aes import decryptaesecb
 
 
 def answer() -> str:

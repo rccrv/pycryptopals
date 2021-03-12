@@ -1,7 +1,8 @@
-import challenge09
-import challenge10
+from set02 import challenge09
+from set02 import challenge10
 
-if __name__ == "__main__":
+
+def challenges():
     print("# cryptopals - set 02 #")
     print("- challenge 09 -")
     print(challenge09.answer())

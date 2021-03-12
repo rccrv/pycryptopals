@@ -1,7 +1,7 @@
 from base64 import b64decode
 from typing import List, Iterable, Tuple
 
-from lib import bytestohexstring, hd, transposebytes, wrapbytes
+from lib.bytes import bytestohexstring, hd, transposebytes, wrapbytes
 from lib.chisquare import ChiSquare
 from lib.consts import INDICES
 

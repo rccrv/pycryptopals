@@ -1,13 +1,14 @@
-import challenge01
-import challenge02
-import challenge03
-import challenge04
-import challenge05
-import challenge06
-import challenge07
-import challenge08
+from set01 import challenge01
+from set01 import challenge02
+from set01 import challenge03
+from set01 import challenge04
+from set01 import challenge05
+from set01 import challenge06
+from set01 import challenge07
+from set01 import challenge08
 
-if __name__ == "__main__":
+
+def challenges():
     print("# cryptopals - set 01 #")
     print("- challenge 01 -")
     print(challenge01.answer())
