@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "set01"
+name = "pycryptopals"
 version = "0.1.0"
-description = "Cryptopals set 01"
+description = "Cryptopals in Python"
 authors = ["Ricardo Carvalho <rat.carvalho@gmail.com>"]
 
 [tool.poetry.dependencies]

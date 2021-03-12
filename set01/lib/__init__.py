@@ -2,6 +2,8 @@ from itertools import cycle, zip_longest
 from math import log2
 from typing import List
 
+from Crypto.Cipher import AES
+
 
 def xorrepeatedkey(s: str, key: str) -> str:
     return "".join(f"{ord(z[0]) ^ ord(z[1]):02x}" for z in zip(s, cycle(key)))
@@ -56,5 +58,12 @@ def byteentropy(b: bytes) -> float:
     v = [b.count(i) / len(b) for i in s]
     v = [i * log2(i) for i in v]
     r = -sum(v)
+
+    return r
+
+
+def decryptaesecb(b: bytes, k: bytes) -> bytes:
+    cipher = AES.new(k, AES.MODE_ECB)
+    r = cipher.decrypt(b)
 
     return r

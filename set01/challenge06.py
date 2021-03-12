@@ -18,7 +18,7 @@ class Answer(ChiSquare):
     # TODO: Write unit tests for the 3 functions bellow. Problably will need to create a mock object
     def processkeysize(self, keysize: int) -> float:
         v = [self.bytes[i * keysize : (i + 1) * keysize] for i in range(4)]
-        r = [hd(v[i],v[k]) / keysize for i, k in INDICES]
+        r = [hd(v[i], v[k]) / keysize for i, k in INDICES]
 
         return sum(r) / len(r)
 
