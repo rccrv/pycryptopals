@@ -1,13 +1,15 @@
-from lib.aes import encryptaescbc
+from base64 import b64decode
+
+from lib.aes import decryptaescbc
 
 
 def answer() -> str:
     r = ""
 
     with open("files/10.txt", "rb") as f:
-        b = f.read()
+        b = b64decode(f.read().strip())
         k = b"YELLOW SUBMARINE"
         iv = b"\x00" * 16
-        encryptaescbc(b, k, iv)
+        r = decryptaescbc(b, k, iv)
 
     return r

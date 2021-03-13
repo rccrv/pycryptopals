@@ -2,6 +2,8 @@ from Crypto.Cipher import AES
 
 from lib.bytes import wrapbytes
 
+from lib.xor import xorrepeatedkey
+
 
 def decryptaesecb(b: bytes, k: bytes) -> bytes:
     cipher = AES.new(k, AES.MODE_ECB)
@@ -17,16 +19,31 @@ def encryptaesecb(b: bytes, k: bytes) -> bytes:
     return r
 
 
+# FIXME: Doesn't work. Fix it.
 def decryptaescbc(b: bytes, k: bytes, iv: bytes) -> bytes:
-    r = b""
+    l = []
+    wb = wrapbytes(b, 16)
+    tx = iv
+    for i in wb:
+        tc = decryptaesecb(i, k)
+        rc = xorrepeatedkey(tc, tx)
+        l.append(rc)
+        tx = tc
+    r = b"".join(l)
 
     return r
 
 
 def encryptaescbc(b: bytes, k: bytes, iv: bytes) -> bytes:
-    r = b""
+    l = []
     wb = wrapbytes(b, 16)
-    print(wb)
+    tx = iv
+    for i in wb:
+        tc = xorrepeatedkey(i, tx)
+        rc = encryptaesecb(tc, k)
+        l.append(rc)
+        tx = rc
+    r = b"".join(l)
 
     return r
 
