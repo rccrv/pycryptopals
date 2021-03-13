@@ -19,7 +19,6 @@ def encryptaesecb(b: bytes, k: bytes) -> bytes:
     return r
 
 
-# FIXME: Doesn't work. Fix it.
 def decryptaescbc(b: bytes, k: bytes, iv: bytes) -> bytes:
     l = []
     wb = wrapbytes(b, 16)
@@ -28,7 +27,7 @@ def decryptaescbc(b: bytes, k: bytes, iv: bytes) -> bytes:
         tc = decryptaesecb(i, k)
         rc = xorrepeatedkey(tc, tx)
         l.append(rc)
-        tx = tc
+        tx = i
     r = b"".join(l)
 
     return r

@@ -10,6 +10,6 @@ def answer() -> str:
         b = b64decode(f.read().strip())
         k = b"YELLOW SUBMARINE"
         iv = b"\x00" * 16
-        r = decryptaescbc(b, k, iv)
+        r = decryptaescbc(b, k, iv).decode('utf-8')
 
     return r

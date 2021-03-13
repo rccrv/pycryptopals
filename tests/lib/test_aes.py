@@ -30,7 +30,7 @@ def test_encryptaesecb():
 
 
 def test_decryptaescbc():
-    bi = b"AAAABBBBCCCCDDDD"
+    bi = b"AAAABBBBCCCCDDDD" * 2
     iv = b"\x00" * 16
     ki = k = b"YELLOW SUBMARINE"
     cipher = AES.new(ki, AES.MODE_CBC, iv=iv)
@@ -39,8 +39,9 @@ def test_decryptaescbc():
 
 
 def test_encryptaescbc():
-    bi = b"AAAABBBBCCCCDDDD"
+    bi = b"AAAABBBBCCCCDDDD" * 2
     iv = b"\x00" * 16
     ki = k = b"YELLOW SUBMARINE"
     cipher = AES.new(ki, AES.MODE_CBC, iv=iv)
-    assert cipher.decrypt(encryptaescbc(bi, ki, iv)) == bi
+    encrypted = encryptaescbc(bi, ki, iv)
+    assert cipher.encrypt(bi) == encrypted

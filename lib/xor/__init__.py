@@ -6,6 +6,7 @@ from lib.bytes import hexstringtobytes
 
 T = TypeVar("T", str, bytes)
 
+
 def xorrepeatedkey(s: T, key: T) -> T:
     if isinstance(s, str):
         return "".join(f"{ord(z[0]) ^ ord(z[1]):02x}" for z in zip(s, cycle(key)))
