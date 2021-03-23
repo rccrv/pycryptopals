@@ -4,8 +4,6 @@ from lib.bytes import popcount
 from lib.bytes import hd
 from lib.bytes import transposebytes
 from lib.bytes import wrapbytes
-from lib.bytes import bytestohexstring
-from lib.bytes import hexstringtobytes
 from lib.bytes import byteentropy
 
 
@@ -55,18 +53,6 @@ def test_wrapbytes():
         and wrapbytes(bi, s2i) == r2i
         and wrapbytes(bi, s3i) == r3i
     )
-
-
-def test_bytestohexstring():
-    bi = b"AA\x02"
-    r = "414102"
-    assert bytestohexstring(bi) == r
-
-
-def test_hexstringtobytes():
-    si = "414102"
-    r = b"AA\x02"
-    assert hexstringtobytes(si) == r
 
 
 def test_byteentropy():

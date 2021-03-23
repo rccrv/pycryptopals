@@ -1,7 +1,7 @@
 from base64 import b64decode
 from typing import List, Iterable, Tuple
 
-from lib.bytes import bytestohexstring, hd, transposebytes, wrapbytes
+from lib.bytes import hd, transposebytes, wrapbytes
 from lib.chisquare import ChiSquare
 from lib.consts import INDICES
 
@@ -38,7 +38,8 @@ class Answer(ChiSquare):
             k: List[str] = []
 
             for b in tb:
-                self.s = bytestohexstring(b)
+                self.s = b.hex()
+                self.b = bytes.fromhex(self.s)
                 a = self.analysis()
                 k.append(a[0])
 

@@ -2,7 +2,7 @@ from Crypto.Cipher import AES
 
 from lib.bytes import wrapbytes
 
-from lib.xor import xorrepeatedkey
+from lib.xor import xor
 
 
 def decryptaesecb(b: bytes, k: bytes) -> bytes:
@@ -25,7 +25,7 @@ def decryptaescbc(b: bytes, k: bytes, iv: bytes) -> bytes:
     tx = iv
     for i in wb:
         tc = decryptaesecb(i, k)
-        rc = xorrepeatedkey(tc, tx)
+        rc = xor(tc, tx)
         l.append(rc)
         tx = i
     r = b"".join(l)
@@ -38,7 +38,7 @@ def encryptaescbc(b: bytes, k: bytes, iv: bytes) -> bytes:
     wb = wrapbytes(b, 16)
     tx = iv
     for i in wb:
-        tc = xorrepeatedkey(i, tx)
+        tc = xor(i, tx)
         rc = encryptaesecb(tc, k)
         l.append(rc)
         tx = rc

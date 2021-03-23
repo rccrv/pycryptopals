@@ -1,18 +1,17 @@
 from itertools import cycle
 from typing import Generic, TypeVar
 
-from lib.bytes import hexstringtobytes
-
 
 T = TypeVar("T", str, bytes)
 
 
-def xorrepeatedkey(s: T, key: T) -> T:
-    if isinstance(s, str):
-        return "".join(f"{ord(z[0]) ^ ord(z[1]):02x}" for z in zip(s, cycle(key)))
+def xor(a: T, b: T) -> T:
+    if isinstance(a, str):
+        return b"".join(
+            [
+                b"%c" % (i[0] ^ i[1])
+                for i in zip(a.encode("utf-8"), cycle(b.encode("utf-8")))
+            ]
+        ).decode("utf-8")
     else:
-        return b"".join([b"%c" % (z[0] ^ z[1]) for z in zip(s, cycle(key))])
-
-
-def xorsingleletter(s: str, key: int) -> str:
-    return "".join([chr(key ^ b) for b in hexstringtobytes(s)])
+        return b"".join([b"%c" % (i[0] ^ i[1]) for i in zip(a, cycle(b))])

@@ -33,14 +33,6 @@ def wrapbytes(b: bytes, s: int) -> List[bytes]:
     )
 
 
-def bytestohexstring(b: bytes) -> str:
-    return "".join(["{:02x}".format(i) for i in b])
-
-
-def hexstringtobytes(s: str) -> bytes:
-    return bytes([int("0x" + s[i : i + 2], 16) for i in range(0, len(s), 2)])
-
-
 def byteentropy(b: bytes) -> float:
     r = 0.0
 
