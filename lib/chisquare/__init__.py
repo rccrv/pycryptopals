@@ -34,7 +34,6 @@ class ChiSquare:
 
         for c in CHARS:
             nc = b"%c" % c
-            # xored = xorsingleletter(self.s, c)
             xored = xor(self.b, nc)
 
             try:
