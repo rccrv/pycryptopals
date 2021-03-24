@@ -36,7 +36,7 @@ class ChiSquare:
         for c in CHARS:
             nc = Data(b"%c" % c)
             try:
-                xored = (self.d ^ nc).data.decode('utf-8')
+                xored = (self.d ^ nc).data.decode("utf-8")
                 bn = self.chisquare(xored.lower())
             except UnicodeDecodeError:
                 xored = ""

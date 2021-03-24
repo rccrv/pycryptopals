@@ -1,52 +1,4 @@
-from base64 import b64decode
-from typing import List, Iterable, Tuple
-
-from lib.bytes import hd, transposebytes, wrapbytes
-from lib.data import Data
-from lib.chisquare import ChiSquare
-from lib.consts import INDICES
-
-
-class Answer(ChiSquare):
-    def __init__(self, s: str, sizes: int, seq: Iterable[int]):
-        self.data = Data(b64decode(s))
-        self.minsizes = sizes
-        self.seq = seq
-
-        self.d = Data(b"\x00")
-        self.smallerkeys: List[int] = []
-
-    # TODO: Write unit tests for the 3 methods bellow.
-    def processkeysize(self, keysize: int) -> float:
-        db = self.data.data
-        v = [db[i * keysize : (i + 1) * keysize] for i in range(4)]
-        r = [hd(v[i], v[k]) / keysize for i, k in INDICES]
-
-        return sum(r) / len(r)
-
-    def getkeysizes(self) -> List[int]:
-        v = map(self.processkeysize, self.seq)
-        r = [i[0] for i in sorted(enumerate(v), key=lambda n: n[1])]
-
-        return [list(self.seq)[i] for i in r[: self.minsizes]]
-
-    def solve(self) -> List[Tuple[int, str]]:
-        self.smallerkeys = self.getkeysizes()
-        db = self.data.data
-        r: List[Tuple[int, str]] = []
-
-        for i in self.smallerkeys:
-            wb = wrapbytes(db, i)
-            tb = transposebytes(wb)
-            k: List[str] = []
-
-            for b in tb:
-                self.d = Data(b)
-                a = self.analysis()
-                k.append(a[0])
-
-            r.append((i, "".join(k)))
-        return r
+from lib.chisquare.extended import ExtendedChiSquare
 
 
 def answer() -> str:
@@ -57,7 +9,7 @@ def answer() -> str:
         minsizes = 1
         seq = range(2, 41)
 
-        a = Answer(content, minsizes, seq)
+        a = ExtendedChiSquare(content, minsizes, seq)
 
         s = a.solve()
         r = "".join([f"Candidate key of size {i[0]}\nGot {i[1]}\n\n" for i in s])

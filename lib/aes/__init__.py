@@ -1,52 +1,51 @@
 from Crypto.Cipher import AES
 
-from lib.bytes import wrapbytes
-from lib.xor import xor
+from lib.data import Data
 
 
-def decryptaesecb(b: bytes, k: bytes) -> bytes:
-    cipher = AES.new(k, AES.MODE_ECB)
-    r = cipher.decrypt(b)
-
-    return r
-
-
-def encryptaesecb(b: bytes, k: bytes) -> bytes:
-    cipher = AES.new(k, AES.MODE_ECB)
-    r = cipher.encrypt(b)
+def decryptaesecb(b: Data, k: Data) -> Data:
+    cipher = AES.new(k.data, AES.MODE_ECB)
+    r = Data(cipher.decrypt(b.data))
 
     return r
 
 
-def decryptaescbc(b: bytes, k: bytes, iv: bytes) -> bytes:
+def encryptaesecb(b: Data, k: Data) -> Data:
+    cipher = AES.new(k.data, AES.MODE_ECB)
+    r = Data(cipher.encrypt(b.data))
+
+    return r
+
+
+def decryptaescbc(b: Data, k: Data, iv: Data) -> Data:
     l = []
-    wb = wrapbytes(b, 16)
+    wb = b.wrap(16)
     tx = iv
     for i in wb:
         tc = decryptaesecb(i, k)
-        rc = xor(tc, tx)
-        l.append(rc)
+        rc = tc ^ tx
+        l.append(rc.data)
         tx = i
-    r = b"".join(l)
+    r = Data(b"".join(l))
 
     return r
 
 
-def encryptaescbc(b: bytes, k: bytes, iv: bytes) -> bytes:
+def encryptaescbc(b: Data, k: Data, iv: Data) -> Data:
     l = []
-    wb = wrapbytes(b, 16)
+    wb = b.wrap(16)
     tx = iv
     for i in wb:
-        tc = xor(i, tx)
+        tc = i ^ tx
         rc = encryptaesecb(tc, k)
-        l.append(rc)
+        l.append(rc.data)
         tx = rc
-    r = b"".join(l)
+    r = Data(b"".join(l))
 
     return r
 
 
-def pkcs7pad(b: bytes, n: int) -> bytes:
-    r = b + (b"%c" % (n - len(b)) * (n - len(b))) if n > len(b) and n <= 255 else b
+def pkcs7pad(b: Data, n: int) -> Data:
+    r = b + Data(b"%c" % (n - len(b)) * (n - len(b))) if n > len(b) and n <= 255 else b
 
     return r

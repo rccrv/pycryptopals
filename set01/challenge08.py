@@ -1,4 +1,4 @@
-from lib.bytes import byteentropy
+from lib.data import Data
 
 # The problem with AES in ECB mode is that when blocks of 16 bytes are equal they will produce
 # the same output of 16 bytes. I assumed that the line having the smallest Shannon entropy
@@ -16,9 +16,8 @@ def answer() -> str:
         minline = 1
 
         for i in f.readlines():
-            content = i.strip()
-            bcontent = bytes.fromhex(content)
-            e = byteentropy(bcontent)
+            d = Data(i.strip(), True)
+            e = d.entropy()
 
             if e < minentropy:
                 minentropy = e
