@@ -1,7 +1,6 @@
 from Crypto.Cipher import AES
 
 from lib.bytes import wrapbytes
-
 from lib.xor import xor
 
 

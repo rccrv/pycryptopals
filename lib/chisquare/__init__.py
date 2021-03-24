@@ -1,13 +1,14 @@
 import string
 from typing import Tuple
 
-from lib.xor import xor
 from lib.consts import ALPHABET, CHARS
+from lib.data import Data
 
 
 class ChiSquare:
     def __init__(self, s: str):
         self.s = s
+        self.d = Data(s, True)
         self.b = bytes.fromhex(s)
 
     def chisquare(self, xored: str) -> float:
@@ -33,14 +34,14 @@ class ChiSquare:
         bestfit = ("\0", float("inf"), "")
 
         for c in CHARS:
-            nc = b"%c" % c
-            xored = xor(self.b, nc)
-
+            nc = Data(b"%c" % c)
             try:
-                bn = self.chisquare(xored.decode("utf-8").lower())
+                xored = (self.d ^ nc).data.decode('utf-8')
+                bn = self.chisquare(xored.lower())
             except UnicodeDecodeError:
-                continue
+                xored = ""
+                bn = float("inf")
 
             if bn < bestfit[1]:
-                bestfit = (chr(c), bn, xored.decode("utf-8"))
+                bestfit = (chr(c), bn, xored)
         return bestfit

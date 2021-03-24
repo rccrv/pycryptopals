@@ -2,22 +2,24 @@ from base64 import b64decode
 from typing import List, Iterable, Tuple
 
 from lib.bytes import hd, transposebytes, wrapbytes
+from lib.data import Data
 from lib.chisquare import ChiSquare
 from lib.consts import INDICES
 
 
 class Answer(ChiSquare):
     def __init__(self, s: str, sizes: int, seq: Iterable[int]):
-        self.bytes = b64decode(s)
+        self.data = Data(b64decode(s))
         self.minsizes = sizes
         self.seq = seq
 
-        self.s = ""
+        self.d = Data(b"\x00")
         self.smallerkeys: List[int] = []
 
-    # TODO: Write unit tests for the 3 functions bellow. Problably will need to create a mock object
+    # TODO: Write unit tests for the 3 methods bellow.
     def processkeysize(self, keysize: int) -> float:
-        v = [self.bytes[i * keysize : (i + 1) * keysize] for i in range(4)]
+        db = self.data.data
+        v = [db[i * keysize : (i + 1) * keysize] for i in range(4)]
         r = [hd(v[i], v[k]) / keysize for i, k in INDICES]
 
         return sum(r) / len(r)
@@ -30,16 +32,16 @@ class Answer(ChiSquare):
 
     def solve(self) -> List[Tuple[int, str]]:
         self.smallerkeys = self.getkeysizes()
+        db = self.data.data
         r: List[Tuple[int, str]] = []
 
         for i in self.smallerkeys:
-            wb = wrapbytes(self.bytes, i)
+            wb = wrapbytes(db, i)
             tb = transposebytes(wb)
             k: List[str] = []
 
             for b in tb:
-                self.s = b.hex()
-                self.b = bytes.fromhex(self.s)
+                self.d = Data(b)
                 a = self.analysis()
                 k.append(a[0])
 
