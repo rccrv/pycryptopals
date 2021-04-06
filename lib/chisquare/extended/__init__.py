@@ -33,7 +33,6 @@ class ExtendedChiSquare(ChiSquare):
 
     def solve(self) -> List[Tuple[int, str]]:
         self.smallerkeys = self.getkeysizes()
-        db = self.data.data
         r: List[Tuple[int, str]] = []
 
         for i in self.smallerkeys:

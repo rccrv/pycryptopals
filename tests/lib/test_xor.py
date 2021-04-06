@@ -1,3 +1,5 @@
+# TODO: This file should be deleted.
+# TODO: The test should be passed to the __xor__ method of the Data class
 from lib.xor import xor
 
 # from lib.xor import xorrepeatedkey
