@@ -1,4 +1,4 @@
-from lib.chisquare.extended import ExtendedChiSquare
+from lib.chisquare import ChiSquare
 
 
 def answer() -> str:
@@ -9,9 +9,9 @@ def answer() -> str:
         minsizes = 1
         seq = range(2, 41)
 
-        a = ExtendedChiSquare(content, minsizes, seq)
+        a = ChiSquare(content, False, minsizes, seq)
 
-        s = a.solve()
+        s = a.solve_repeated_key()
         r = "".join([f"Candidate key of size {i[0]}\nGot {i[1]}\n\n" for i in s])
 
     return r.strip()

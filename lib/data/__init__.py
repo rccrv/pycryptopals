@@ -2,10 +2,10 @@
 # This would not be necessary after Python 3.10
 from __future__ import annotations
 from dataclasses import dataclass
-from itertools import cycle
+from itertools import cycle, zip_longest
 from math import log2
 from sys import byteorder
-from typing import List, TypeVar
+from typing import List, Optional, TypeVar
 
 from lib.consts import D
 
@@ -16,6 +16,7 @@ T = TypeVar("T", bytes, str)
 @dataclass
 class Data:
     data: bytes
+    transposed: Optional[List[Data]] = None
 
     def __init__(self, data: T, hexstring: bool = False):
         if isinstance(data, bytes):
@@ -87,3 +88,12 @@ class Data:
             + [Data(b[len(b) - (len(b) % s) :])]
         )
         return chunks
+
+    def transpose(self, s: int) -> List[Data]:
+        chunks = self.wrap(s)
+        v = [
+            tuple(b"%c" % k for k in i if isinstance(k, int))
+            for i in zip_longest(*chunks)
+        ]
+        self.transposed = [Data(b"".join(i)) for i in v]
+        return self.transposed

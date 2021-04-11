@@ -12,7 +12,7 @@ def answer():
     with open("files/4.txt") as f:
         for s in f.readlines():
             a = Answer(s.strip())
-            r = a.analysis()
+            r = a.solve_single_letter()
 
             if r[1] < bestfit[1]:
                 bestfit = (r[0], r[1], r[2], line)
