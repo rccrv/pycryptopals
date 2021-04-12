@@ -1,5 +1,4 @@
-# TODO: This class should be tested.
-# This would not be necessary after Python 3.10
+# This will not be necessary after Python 3.10
 from __future__ import annotations
 from dataclasses import dataclass
 from itertools import cycle, zip_longest

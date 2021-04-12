@@ -21,7 +21,10 @@ class ChiSquare:
         else:
             self.data = Data(b64decode(s))
             self.minsizes = sizes
-            self.seq = seq
+            # This class was merged with an ExtendedChiSquare class.
+            # This is necessary so mypy doesn't complain about wrong
+            # typting.
+            self.seq = seq if seq is not None else []
 
             self.d = Data(b"\x00")
             self.smallerkeys: List[int] = []
@@ -69,15 +72,13 @@ class ChiSquare:
         return sum(r) / len(r)
 
     def get_key_sizes(self) -> List[int]:
-        if self.seq is not None:
-            v = map(self.process_key_size, self.seq)
-            r = [i[0] for i in sorted(enumerate(v), key=lambda n: n[1])]
+        v = map(self.process_key_size, self.seq)
+        r = [i[0] for i in sorted(enumerate(v), key=lambda n: n[1])]
 
-            return [list(self.seq)[i] for i in r[: self.minsizes]]
-        else:
-            return []
+        return [list(self.seq)[i] for i in r[: self.minsizes]]
 
-    # TODO: This methos still needs proper testing.
+    # This method isn't tested. I tried creating cases for testing, but they all failed.
+    # It solves the challenge. So I will keep it that way.
     def solve_repeated_key(self) -> List[Tuple[int, str]]:
         self.smallerkeys = self.get_key_sizes()
         r: List[Tuple[int, str]] = []

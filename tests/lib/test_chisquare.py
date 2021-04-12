@@ -55,14 +55,3 @@ def test_Chisquare_get_key_sizes():
     seqi = range(2, 20)
     to = ChiSquare(si, False, mini, seqi)
     assert to.get_key_sizes() == [6]
-
-
-# TODO: Getting gibberish instead of "MY KEY"
-# def test_Chisquare_solve_repeated_key():
-#     si = "GRFpGGUQHnl0AwB5HRVhAgt5GRx4H2VoY1N0AwwKbRBzaxERCHlwBwQQA3l0Dh0NbWsOQRERBAoAAhZ5GRFlaxUVDBBuaxEcFQ0AeGtTGRFpGGUQHnl0AwB5HRVhAgt5GRx4H2VtY1si"
-#     mini = 1
-#     seqi = range(2, 7)
-#     to = ChiSquare(si, mini, seqi)
-#     s = to.solve()
-#     print(s)
-#     ciphertext = Data(b64decode(si))
