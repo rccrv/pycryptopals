@@ -1,8 +1,13 @@
 from enum import Enum
-from random import randbytes, randint, random
+# randbytes only works with Python 3.9
+# from random import randbytes, randint, random
+from random import randint, random, getrandbits
 
 from lib.aes import encryptaescbc, encryptaesecb
 from lib.data import Data
+
+def randbytes(n: int) -> bytes:
+    return b"".join([b"%c" % getrandbits(8) for i in range(n)])
 
 class AESType(Enum):
     CBC = 1
@@ -16,7 +21,7 @@ def generate_random_key() -> Data:
 def generate_ecb_or_cbc(b: Data, k: Data) -> Data:
     d = Data(randbytes(randint(5, 10)) + b.data + randbytes(randint(5, 10)))
     v = random()
-    r = encryptaescbc(b, k, Data(randbytes(16))) if v < 0.5 else encryptaesecb(b, k)
+    r = encryptaescbc(d, k, Data(randbytes(16))) if v < 0.5 else encryptaesecb(b, k)
     if v < 0.5:
         print("CBC")
     else:
