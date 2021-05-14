@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from itertools import cycle, zip_longest
 from math import log2
 from sys import byteorder
-from typing import List, Optional, TypeVar
+from typing import List, Optional, Sequence, TypeVar, Union
 
 from lib.consts import D
 
@@ -53,6 +53,16 @@ class Data:
         r = Data(b"".join([b"%c" % (i[0] ^ i[1]) for i in z]))
         return r
 
+    def __getitem__(self, item: Union[int, slice]) -> Union[Data, Sequence[Data, None, None]]:
+        if isinstance(item, int):
+            return Data(b"%c" % self.data[item])
+        elif isinstance(item, slice):
+            return Data(self.data[item])
+        else:
+            raise TypeError(
+                "subscriptable index shoult be an integer or an slice"
+            )
+
     def base64(self) -> str:
         r = ""
         for i in range(0, len(self.data), 3):
@@ -78,6 +88,7 @@ class Data:
 
         return r
 
+    # TODO: Perhaps refactor this. Data now is subscriptable.
     def wrap(self, s: int) -> List[Data]:
         b = self.data
         chunks = (

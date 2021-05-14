@@ -1,13 +1,9 @@
 from enum import Enum
 # randbytes only works with Python 3.9
-# from random import randbytes, randint, random
-from random import randint, random, getrandbits
+from random import randbytes, randint, random
 
 from lib.aes import encryptaescbc, encryptaesecb
 from lib.data import Data
-
-def randbytes(n: int) -> bytes:
-    return b"".join([b"%c" % getrandbits(8) for i in range(n)])
 
 class AESType(Enum):
     CBC = 1
@@ -19,9 +15,9 @@ def generate_random_key() -> Data:
     return r
 
 def generate_ecb_or_cbc(b: Data, k: Data) -> Data:
-    d = Data(randbytes(randint(5, 10)) + b.data + randbytes(randint(5, 10)))
+    d = Data(b"A" * randint(5, 10)) + b + Data(b"A" * randint(5, 10))
     v = random()
-    r = encryptaescbc(d, k, Data(randbytes(16))) if v < 0.5 else encryptaesecb(b, k)
+    r = encryptaescbc(d, k, Data(randbytes(16))) if v < 0.5 else encryptaesecb(d, k)
     if v < 0.5:
         print("CBC")
     else:
@@ -30,21 +26,30 @@ def generate_ecb_or_cbc(b: Data, k: Data) -> Data:
 
     return r
 
+# TODO: This counting technique doesn't work in this case.
 def oracle(d: Data) -> AESType:
     r = AESType.CBC
 
-    print(d.entropy())
+    h = d.wrap(16)
+    print(h)
+    score = sum([1 if h.count(j) > 1 else 0 for j in h])
+    print(score)
+    if score > 0:
+        r = AESType.EBC
 
     return r
 
 def answer() -> str:
     r = ""
     for i in range(10):
-        b = Data(b"YELLOW SUBMARINE")
+        b = Data(b"YELLOW SUBMARINE1, yellow submarine2, YELLOW SUBMARINE3, yellow submarine4, YELLOW SUBMARINE5, yellow submarine6")
         k = generate_random_key()
         d = generate_ecb_or_cbc(b, k)
-        print(d)
-        oracle(d)
+        o = oracle(d)
+        if o == AESType.CBC:
+            print("CBC")
+        else:
+            print("EBC")
         print("-----------------------------------------------")
 
     return r
