@@ -4,6 +4,7 @@ from Crypto.Cipher import AES
 from lib.data import Data
 
 
+# TODO: Break ECB encryption between blocks and padded input using PKCS padding.
 def decryptaesecb(b: Data, k: Data) -> Data:
     cipher = AES.new(k.data, AES.MODE_ECB)
     r = Data(unpad(cipher.decrypt(b.data), 16))
