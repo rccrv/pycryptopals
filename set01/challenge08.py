@@ -47,5 +47,5 @@ def answer() -> str:
 
             line += 1
 
-        r = f"Linux {maxline} has the highest score ({maxscore}) and probably was encrypted with AES in ECB mode"
+        r = f"Line {maxline} has the highest score ({maxscore}) and probably was encrypted with AES in ECB mode"
     return r
