@@ -5,6 +5,31 @@ from lib.data import Data
 
 
 # TODO: Break ECB encryption between blocks and padded input using PKCS padding.
+def decryptaesecbblock(b: Data, k: Data) -> Data:
+    if len(b) % 16 != 0:
+        raise ValueError("Data must be aligned to 16 bytes")
+    if len(k) != 16:
+        raise ValueError("Key must be 16 bytes long")
+
+    cipher = AES.new(k.data, AES.MODE_ECB)
+    r = Data(cipher.decrypt(b.data))
+
+    return r
+
+
+def encryptaesecbblock(b: Data, k: Data) -> Data:
+    if len(b) % 16 != 0:
+        raise ValueError("Data must be aligned to 16 bytes")
+    if len(k) != 16:
+        raise ValueError("Key must be 16 bytes long")
+
+    cipher = AES.new(k.data, AES.MODE_ECB)
+    r = Data(cipher.encrypt(b.data))
+
+    return r
+
+
+# TODO: Reimplement the ECB and CBC bellow to pad the data when it's not aligned to 16 bytes.
 def decryptaesecb(b: Data, k: Data) -> Data:
     cipher = AES.new(k.data, AES.MODE_ECB)
     r = Data(unpad(cipher.decrypt(b.data), 16))
