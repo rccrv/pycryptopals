@@ -46,7 +46,7 @@ def test_encryptaesecb():
     assert encryptaesecb(bi, ki) == r
 
 
-# TODO: Reimplement CBC and use pkcs7pad from lib.aes.
+# TODO: CBC doesn't work with padded data
 def test_decryptaescbc():
     bi = Data(b"AAAABBBBCCCCDDDD" * 2)
     iv = Data(b"\x00" * 16)

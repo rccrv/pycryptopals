@@ -51,14 +51,12 @@ def encryptaesecb(b: Data, k: Data) -> Data:
     return r
 
 
-# FIXME: CBC still is wrong
-# TODO: Reimplement CBC bellow.
 def decryptaescbc(b: Data, k: Data, iv: Data) -> Data:
     l = []
     wb = b.wrap(16)
     tx = iv
     for i in wb:
-        tc = decryptaesecb(i, k)
+        tc = decryptaesecbblock(i, k)
         rc = tc ^ tx
         l.append(rc.data)
         tx = i
@@ -73,7 +71,7 @@ def encryptaescbc(b: Data, k: Data, iv: Data) -> Data:
     tx = iv
     for i in wb:
         tc = i ^ tx
-        rc = encryptaesecb(tc, k)
+        rc = encryptaesecbblock(tc, k)
         l.append(rc.data)
         tx = rc
     r = Data(b"".join(l))
