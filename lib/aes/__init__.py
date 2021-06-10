@@ -4,7 +4,7 @@ from Crypto.Cipher import AES
 from lib.data import Data
 
 
-def decryptaesecbblock(b: Data, k: Data) -> Data:
+def decrypt_aes_ecb_block(b: Data, k: Data) -> Data:
     if len(b) % 16 != 0:
         raise ValueError("Data must be aligned to 16 bytes")
     if len(k) != 16:
@@ -16,7 +16,7 @@ def decryptaesecbblock(b: Data, k: Data) -> Data:
     return r
 
 
-def encryptaesecbblock(b: Data, k: Data) -> Data:
+def encrypt_aes_ecb_block(b: Data, k: Data) -> Data:
     if len(b) % 16 != 0:
         raise ValueError("Data must be aligned to 16 bytes")
     if len(k) != 16:
@@ -28,7 +28,7 @@ def encryptaesecbblock(b: Data, k: Data) -> Data:
     return r
 
 
-def decryptaesecb(b: Data, k: Data) -> Data:
+def decrypt_aes_ecb(b: Data, k: Data) -> Data:
     if len(b) % 16 != 0:
         raise ValueError("Data must be aligned to 16 bytes")
     if len(k) != 16:
@@ -40,8 +40,8 @@ def decryptaesecb(b: Data, k: Data) -> Data:
     return r
 
 
-def encryptaesecb(b: Data, k: Data) -> Data:
-    d = pkcs7pad(b, len(b) + (16 - len(b) % 16)) if len(b) % 16 != 0 else b
+def encrypt_aes_ecb(b: Data, k: Data) -> Data:
+    d = pkcs7_pad(b, len(b) + (16 - len(b) % 16)) if len(b) % 16 != 0 else b
     if len(k) != 16:
         raise ValueError("Key must be 16 bytes long")
 
@@ -51,12 +51,12 @@ def encryptaesecb(b: Data, k: Data) -> Data:
     return r
 
 
-def decryptaescbc(b: Data, k: Data, iv: Data) -> Data:
+def decrypt_aes_cbc(b: Data, k: Data, iv: Data) -> Data:
     l = []
     wb = b.wrap(16)
     tx = iv
     for i in wb:
-        tc = decryptaesecbblock(i, k)
+        tc = decrypt_aes_ecb_block(i, k)
         rc = tc ^ tx
         l.append(rc.data)
         tx = i
@@ -65,13 +65,13 @@ def decryptaescbc(b: Data, k: Data, iv: Data) -> Data:
     return r
 
 
-def encryptaescbc(b: Data, k: Data, iv: Data) -> Data:
+def encrypt_aes_cbc(b: Data, k: Data, iv: Data) -> Data:
     l = []
     wb = b.wrap(16)
     tx = iv
     for i in wb:
         tc = i ^ tx
-        rc = encryptaesecbblock(tc, k)
+        rc = encrypt_aes_ecb_block(tc, k)
         l.append(rc.data)
         tx = rc
     r = Data(b"".join(l))
@@ -79,7 +79,7 @@ def encryptaescbc(b: Data, k: Data, iv: Data) -> Data:
     return r
 
 
-def pkcs7pad(b: Data, n: int) -> Data:
+def pkcs7_pad(b: Data, n: int) -> Data:
     r = b + Data(b"%c" % (n - len(b)) * (n - len(b))) if n > len(b) and n <= 255 else b
 
     return r
