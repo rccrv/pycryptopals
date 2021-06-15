@@ -46,7 +46,6 @@ def test_encryptaesecb():
     assert encrypt_aes_ecb(bi, ki) == r
 
 
-# TODO: CBC doesn't work with padded data
 def test_decryptaescbc():
     bi = Data(b"AAAABBBBCCCCDDDD" * 2)
     iv = Data(b"\x00" * 16)

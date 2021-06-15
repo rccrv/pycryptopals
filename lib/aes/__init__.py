@@ -51,6 +51,7 @@ def encrypt_aes_ecb(b: Data, k: Data) -> Data:
     return r
 
 
+# TODO: Test this function a little further
 def decrypt_aes_cbc(b: Data, k: Data, iv: Data) -> Data:
     l = []
     wb = b.wrap(16)
@@ -60,14 +61,16 @@ def decrypt_aes_cbc(b: Data, k: Data, iv: Data) -> Data:
         rc = tc ^ tx
         l.append(rc.data)
         tx = i
-    r = Data(b"".join(l))
+    d = Data(b"".join(l))
+    r = Data(unpad(d.data, 16)) if len(d) % 16 != 0 else d
 
     return r
 
 
 def encrypt_aes_cbc(b: Data, k: Data, iv: Data) -> Data:
+    d = pkcs7_pad(b, len(b) + (16 - len(b) % 16)) if len(b) % 16 != 0 else b
     l = []
-    wb = b.wrap(16)
+    wb = d.wrap(16)
     tx = iv
     for i in wb:
         tc = i ^ tx
