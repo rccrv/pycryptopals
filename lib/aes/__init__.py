@@ -82,7 +82,9 @@ def encrypt_aes_cbc(b: Data, k: Data, iv: Data) -> Data:
     return r
 
 
+# TODO: Change data to block size
 def pkcs7_pad(b: Data, n: int) -> Data:
-    r = b + Data(b"%c" % (n - len(b)) * (n - len(b))) if n > len(b) and n <= 255 else b
+    bytes_to_add = n - (len(b) % n)
+    r = b + Data((b"%c" % bytes_to_add) * bytes_to_add)
 
     return r
