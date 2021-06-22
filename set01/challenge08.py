@@ -7,7 +7,7 @@ from lib.data import Data
 # The idea is that I to just do a simple calculation instead of doing analysis 16 bytes at a
 # time for each line. If you actually print all the entropies, the entropy of line 133 is almost
 # 0.5 lower than the next smallest value. Thus it is almost surely our encrypted line.
-#def answer() -> str:
+# def answer() -> str:
 #    r = ""
 #
 #    with open("files/8.txt") as f:

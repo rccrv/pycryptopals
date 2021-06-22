@@ -4,7 +4,7 @@ from lib.data import Data
 
 def answer() -> bytes:
     b = Data(b"YELLOW SUBMARINE")
-    n = 20
+    n = 4
 
     r = pkcs7_pad(b, n)
 

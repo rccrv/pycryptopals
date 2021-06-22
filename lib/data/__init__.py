@@ -53,15 +53,15 @@ class Data:
         r = Data(b"".join([b"%c" % (i[0] ^ i[1]) for i in z]))
         return r
 
-    def __getitem__(self, item: Union[int, slice]) -> Union[Data, Sequence[Data, None, None]]:
+    def __getitem__(
+        self, item: Union[int, slice]
+    ) -> Union[Data, Sequence[Data, None, None]]:
         if isinstance(item, int):
             return Data(b"%c" % self.data[item])
         elif isinstance(item, slice):
             return Data(self.data[item])
         else:
-            raise TypeError(
-                "subscriptable index shoult be an integer or an slice"
-            )
+            raise TypeError("subscriptable index shoult be an integer or an slice")
 
     def base64(self) -> str:
         r = ""
