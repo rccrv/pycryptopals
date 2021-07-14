@@ -77,6 +77,7 @@ class Data:
             r += f"{D[d1]}{D[d2]}{D[d3]}{D[d4]}"
         return r
 
+    # TODO: Delete this function.
     def entropy(self) -> float:
         r = 0.0
 
