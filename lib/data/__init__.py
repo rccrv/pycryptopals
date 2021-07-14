@@ -40,6 +40,12 @@ class Data:
     def __len__(self):
         return len(self.data)
 
+    def __hash__(self):
+        return hash(self.data)
+
+    def __eq__(self, other: object):
+        return self.data == other.data if isinstance(other, Data) else False
+
     def __xor__(self, other: Data) -> Data:
         ls = len(self.data)
         lo = len(other.data)
@@ -55,7 +61,7 @@ class Data:
 
     def __getitem__(
         self, item: Union[int, slice]
-    ) -> Union[Data, Sequence[Data, None, None]]:
+    ) -> Union[Data, Sequence[Data, None, None]]:  # type: ignore
         if isinstance(item, int):
             return Data(b"%c" % self.data[item])
         elif isinstance(item, slice):
