@@ -1,14 +1,35 @@
+import argparse
+import sys
+
 import set01
 import set02
 
 
-# TODO: Pass tests as an argument
-#       By default run the last test.
-#       Tests will be given in the form:
-#       1:1 (set01:challenge01)
-#       1:1-2 (set01:challenge01 to set01:challenge02)
-#       - (all challenges from all sets)
-# TODO: Search for dumb mypy entries and add # type: ignore at the end of the line
+parser = argparse.ArgumentParser(
+    description="Select specific set and challenge numbers"
+)
+challenges = parser.add_argument_group("challenges")
+challenges.add_argument("-s", metavar="set", type=int, help="set number")
+challenges.add_argument("-c", metavar="challenge", type=int, help="challenge number")
+
+
 if __name__ == "__main__":
-    # set01.challenges()
-    set02.challenges()
+    args = parser.parse_args()
+    if args.s is None and args.c is not None:
+        print(
+            "To pass the number of the challenge, you must pass the number of the set"
+        )
+        sys.exit(1)
+    elif args.s is not None and args.c is None:
+        if args.s == 1:
+            set01.challenges()
+        elif args.s == 2:
+            set02.challenges()
+    elif args.s is not None and args.c is not None:
+        if args.s == 1:
+            set01.challenges(args.c)
+        elif args.s == 2:
+            set02.challenges(args.c)
+    elif args.s is None and args.c is None:
+        set01.challenges()
+        set02.challenges()
