@@ -11,8 +11,8 @@ from set01 import challenge08
 
 
 def challenges(c: Optional[int] = None):
-    print("# cryptopals - set 01 #")
     if c is None:
+        print("# cryptopals - set 01 #")
         print("- challenge 01 -")
         print(challenge01.answer())
         print("- challenge 02 -")
@@ -31,26 +31,18 @@ def challenges(c: Optional[int] = None):
         print(challenge08.answer())
     else:
         if c == 1:
-            print("- challenge 01 -")
             print(challenge01.answer())
         elif c == 2:
-            print("- challenge 02 -")
             print(challenge02.answer())
         elif c == 3:
-            print("- challenge 03 -")
             print(challenge03.answer())
         elif c == 4:
-            print("- challenge 04 -")
             print(challenge04.answer())
         elif c == 5:
-            print("- challenge 05 -")
             print(challenge05.answer())
         elif c == 6:
-            print("- challenge 06 -")
             print(challenge06.answer())
         elif c == 7:
-            print("- challenge 07 -")
             print(challenge07.answer())
         elif c == 8:
-            print("- challenge 08 -")
             print(challenge08.answer())
