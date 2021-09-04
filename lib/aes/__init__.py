@@ -10,7 +10,7 @@ from lib.data import Data
 
 class AESType(Enum):
     CBC = "CBC"
-    EBC = "EBC"
+    ECB = "ECB"
 
 
 def decrypt_aes_ecb_block(b: Data, k: Data) -> Data:
@@ -118,6 +118,6 @@ def oracle_aes_ecb_or_cbc(d: Data) -> Tuple[AESType, int]:
 
     h = d.wrap(16)
     score = len(h) - len(set(h))
-    r = (AESType.EBC, score) if score > 0 else (AESType.CBC, score)  # type: ignore
+    r = (AESType.ECB, score) if score > 0 else (AESType.CBC, score)  # type: ignore
 
     return r  # type: ignore
