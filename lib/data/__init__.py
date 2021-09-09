@@ -2,7 +2,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from itertools import cycle, zip_longest
-from math import log2
 from sys import byteorder
 from typing import List, Optional, Sequence, TypeVar, Union
 
@@ -83,28 +82,15 @@ class Data:
             r += f"{D[d1]}{D[d2]}{D[d3]}{D[d4]}"
         return r
 
-    # TODO: Delete this function.
-    def entropy(self) -> float:
-        r = 0.0
-
-        sb = self.data
-        s = set(sb)
-        v = [sb.count(i) / len(sb) for i in s]
-        v = [i * log2(i) for i in v]
-        r = -sum(v)
-
-        return r
-
-    # TODO: Perhaps refactor this. Data now is subscriptable.
     def wrap(self, s: int) -> List[Data]:
-        b = self.data
         chunks = (
-            [Data(b[i : (i + s)]) for i in range(0, len(b), s)]
-            if len(b) % s == 0
-            else [Data(b[i : (i + s)]) for i in range(0, len(b) - s, s)]
-            + [Data(b[len(b) - (len(b) % s) :])]
+            [self[i : (i + s)] for i in range(0, len(self), s)]
+            if len(self) % s == 0
+            else [self[i : (i + s)] for i in range(0, len(self) - s, s)]
+            + [self[len(self) - (len(self) % s) :]]
         )
-        return chunks
+
+        return chunks  # type: ignore
 
     def transpose(self, s: int) -> List[Data]:
         chunks = self.wrap(s)

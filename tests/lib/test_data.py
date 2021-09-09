@@ -1,5 +1,4 @@
 from sys import byteorder
-from pytest import approx
 
 from lib.data import Data
 
@@ -36,11 +35,6 @@ def test_Data_xor():
 def test_Data_base64():
     d = Data(b"\xffABC\xd0")
     assert d.base64() == "/0FCQ9AA"
-
-
-def test_Data_entropy():
-    d = Data(b"\xffABC\xd0")
-    assert d.entropy() == approx(2.3219280)
 
 
 def test_Data_wrap():

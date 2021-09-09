@@ -5,15 +5,18 @@ import set01
 import set02
 
 
-parser = argparse.ArgumentParser(
-    description="Select specific set and challenge numbers"
-)
-challenges = parser.add_argument_group("challenges")
-challenges.add_argument("-s", metavar="set", type=int, help="set number")
-challenges.add_argument("-c", metavar="challenge", type=int, help="challenge number")
+# TODO: Change all variables names from single or two letters
+#       to variables using snake_case
+def main():
+    parser = argparse.ArgumentParser(
+        description="Select specific set and challenge numbers"
+    )
+    challenges = parser.add_argument_group("challenges")
+    challenges.add_argument("-s", metavar="set", type=int, help="set number")
+    challenges.add_argument(
+        "-c", metavar="challenge", type=int, help="challenge number"
+    )
 
-
-if __name__ == "__main__":
     args = parser.parse_args()
     if args.s is None and args.c is not None:
         print(
@@ -33,3 +36,7 @@ if __name__ == "__main__":
     elif args.s is None and args.c is None:
         set01.challenges()
         set02.challenges()
+
+
+if __name__ == "__main__":
+    main()
