@@ -1,7 +1,7 @@
 # This will not be necessary after Python 3.10
 from __future__ import annotations
 from dataclasses import dataclass
-from itertools import cycle, zip_longest
+from itertools import cycle, islice, zip_longest
 from sys import byteorder
 from typing import List, Optional, Sequence, TypeVar, Union
 
@@ -83,20 +83,14 @@ class Data:
         return r
 
     def wrap(self, s: int) -> List[Data]:
-        chunks = (
-            [self[i : (i + s)] for i in range(0, len(self), s)]
-            if len(self) % s == 0
-            else [self[i : (i + s)] for i in range(0, len(self) - s, s)]
-            + [self[len(self) - (len(self) % s) :]]
-        )
+        chunks = [Data(bytes(islice(self, j, j + s))) for j in range(0, len(self), s)]
 
         return chunks  # type: ignore
 
     def transpose(self, s: int) -> List[Data]:
         chunks = self.wrap(s)
-        v = [
-            tuple(b"%c" % k for k in i if isinstance(k, int))
+        self.transposed = [
+            Data(bytes(i)) if i[-1] is not None else Data(bytes(i[:-1]))
             for i in zip_longest(*chunks)
         ]
-        self.transposed = [Data(b"".join(i)) for i in v]
         return self.transposed
