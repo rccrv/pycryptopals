@@ -5,8 +5,6 @@ import set01
 import set02
 
 
-# TODO: Change all variables names from single or two letters
-#       to variables using snake_case
 def main():
     parser = argparse.ArgumentParser(
         description="Select specific set and challenge numbers"
