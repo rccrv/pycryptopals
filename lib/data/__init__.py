@@ -45,6 +45,9 @@ class Data:
     def __eq__(self, other: object):
         return self.data == other.data if isinstance(other, Data) else False
 
+    def __mul__(self, n: object):
+        return Data(self.data * n) if isinstance(n, int) else self
+
     def __xor__(self, other: Data) -> Data:
         ls = len(self.data)
         lo = len(other.data)

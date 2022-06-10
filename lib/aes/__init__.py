@@ -60,7 +60,6 @@ def encrypt_aes_ecb(b: Data, k: Data) -> Data:
     return r
 
 
-# TODO: Test this function a little further
 def decrypt_aes_cbc(b: Data, k: Data, iv: Data) -> Data:
     l = []
     wb = b.wrap(16)

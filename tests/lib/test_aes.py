@@ -53,7 +53,7 @@ def test_encrypt_aes_ecb():
     assert encrypt_aes_ecb(bi, ki) == r
 
 
-def test_decrypt_aes_cbc():
+def test_decrypt_aes_cbc1():
     bi = Data(b"AAAABBBBCCCCDDDD" * 2)
     iv = Data(b"\x00" * 16)
     ki = Data(b"YELLOW SUBMARINE")
