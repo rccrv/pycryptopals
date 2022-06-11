@@ -69,7 +69,7 @@ class Data:
         elif isinstance(item, slice):
             return Data(self.data[item])
         else:
-            raise TypeError("subscriptable index shoult be an integer or an slice")
+            raise TypeError("subscriptable index should be an integer or an slice")
 
     def base64(self) -> str:
         r = ""
