@@ -24,7 +24,7 @@ def answer() -> str:
         #
         # 3. Follow the next stps on https://cryptopals.com/sets/2/challenges/12
         for i in range(1, 50):
-            c = encrypt_aes_ecb(b_my_string[0] * i, k)
+            c = encrypt_aes_ecb(b[0] * i, k) # type: ignore
             print(len(c))
             print(oracle_aes_ecb_or_cbc(c))
 
